@@ -510,6 +510,12 @@ Docker.prototype.parseSections = function(data, language){
       });
     }
 
+    if(params.alwaysReplace) {
+      params.alwaysReplace.forEach(function(replace){
+        line = line.replace(replace[0], replace[1]);
+      });
+    }
+
     if(params.multiLine){
       // If we are currently in a multiline comment, behave differently
       if(inMultiLineComment){
@@ -864,9 +870,16 @@ Docker.prototype.languages = {
     extensions: [ 'coffee' ],
     names: [ 'cakefile' ],
     executables: [ 'coffee' ],
-    comment: '#',  multiLine: [ /^\s*#{3}\s*$/m, /^\s*#{3}\s*$/m ], jsDoc: true,
+    comment: '#',
+    // multiLine: [ /^\s*#{3}\s*$/m, /^\s*#{3}\s*$/m ], 
+    multiLine: [ /^\s*#\*\*\s*$/m, /^\s*#\*#\s*$/m ], 
+    commentsIgnore: /^\s*#=/,
+    jsDoc: true,
     literals: [
       [ /\/(?![\*\/])((?:[^\\\/]|(?:\\\\)*?\\[^\\])*?)\//g, '/./' ]
+    ],
+    alwaysReplace: [
+      [ /^\s*#\*\s/g, '' ]
     ]
   },
   livescript: {
