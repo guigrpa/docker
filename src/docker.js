@@ -1073,7 +1073,7 @@ Docker.prototype.highlight = function(sections, language, cb){
     out = out.replace(/^\s*<div class="highlight"><pre>/,'').replace(/<\/pre><\/div>\s*$/,'');
     var bits = out.split(/^<span[^>]*>[^<]+(?:<\/span><span[^>]*>)?----DIVIDER----[^<]*<\/span>$/gm);
     for(var i = 0; i < sections.length; i += 1){
-      sections[i].codeHtml = '<div class="highlight"><pre>' + bits[i] + '</pre></div>';
+      sections[i].codeHtml = '<div class="highlight"><pre>' + bits[i].replace(/\s*$/gm,'') + '</pre></div>';
       sections[i].docHtml = showdown.makeHtml(sections[i].docs);
     }
     self.processDocCodeBlocks(sections, cb);
